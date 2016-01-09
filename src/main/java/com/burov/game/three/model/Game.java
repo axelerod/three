@@ -2,15 +2,31 @@ package com.burov.game.three.model;
 
 import com.google.common.base.Objects;
 
+import javax.validation.constraints.NotNull;
+
 public class Game {
     private String id;
-    private final Integer startNumber;
+    @NotNull
+    private Integer startNumber;
     private Player firstPlayer;
     private Player secondPlayer;
     private Status status;
 
     public void setId(String id) {
         this.id = id;
+    }
+
+
+
+    public void setStartNumber(Integer startNumber) {
+        this.startNumber = startNumber;
+    }
+
+    public void setFirstPlayer(Player firstPlayer) {
+        this.firstPlayer = firstPlayer;
+    }
+
+    public Game() {
     }
 
     public Game(Integer startNumber) {
