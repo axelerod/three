@@ -5,16 +5,14 @@ import com.burov.game.three.model.Status;
 import com.google.common.annotations.VisibleForTesting;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static java.util.stream.Collectors.toList;
 
 @Service
 public class MapBasedGameService implements GameService {
-    private final Map<String,Game> games;
+    private final Map<String, Game> games;
 
     @VisibleForTesting
     MapBasedGameService(Map<String, Game> games) {
@@ -22,16 +20,25 @@ public class MapBasedGameService implements GameService {
     }
 
     public MapBasedGameService() {
-        this.games = new ConcurrentHashMap<>();
+        this.games = new HashMap<>();
     }
 
     @Override
-    public List<Game> listGames(Status[] statuses) {
+    public synchronized List<Game> listGames(Status[] statuses) {
         List<Status> statusList = Arrays.asList(statuses);
         return games.entrySet()
                 .stream()
                 .filter(k -> statusList.contains(k.getValue().getStatus()))
                 .map(Map.Entry::getValue)
                 .collect(toList());
+    }
+
+    @Override
+    public synchronized Game create(Game game) {
+        String gameUuid = UUID.randomUUID().toString();
+        game.setId(gameUuid);
+        games.put(gameUuid, game);
+
+        return game;
     }
 }

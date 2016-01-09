@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface GameService {
     List<Game> listGames(Status[] statuses);
+    Game create(Game game);
 }

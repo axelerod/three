@@ -3,15 +3,19 @@ package com.burov.game.three.model;
 import com.google.common.base.Objects;
 
 public class Game {
-    private final String id;
-    private final Player firstPlayer;
+    private String id;
+    private final Integer startNumber;
+    private Player firstPlayer;
     private Player secondPlayer;
     private Status status;
 
-    public Game(String id, Player firstPlayer) {
+    public void setId(String id) {
         this.id = id;
-        this.firstPlayer = firstPlayer;
-        this.status = Status.NEW;
+    }
+
+    public Game(Integer startNumber) {
+
+        this.startNumber = startNumber;
     }
 
     public Player getFirstPlayer() {
@@ -24,6 +28,10 @@ public class Game {
 
     public Status getStatus() {
         return status;
+    }
+
+    public Integer getStartNumber() {
+        return startNumber;
     }
 
     public void setStatus(Status status) {
