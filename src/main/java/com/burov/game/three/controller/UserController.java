@@ -17,6 +17,12 @@ public class UserController {
         this.playerService = playerService;
     }
 
+    /**
+     * Creates new player for game
+     *
+     * @param name user name. Required, if not set error response with 400 code returned.
+     * @return player entity
+     */
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public PlayerResponse newPlayer(@RequestParam("name") String name) {

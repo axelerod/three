@@ -17,6 +17,13 @@ public class GameController {
         this.gameService = gameService;
     }
 
+    /**
+     * Retrieves list of games
+     *
+     * @param statuses array of statuses to filter games by. Optional, in case
+     *                 not set, all games returned.
+     * @return list of games
+     */
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public GamesResponse listGames(@RequestParam(name = "statuses", required = false) Status[] statuses) {
         return new GamesResponse(statuses == null ?
