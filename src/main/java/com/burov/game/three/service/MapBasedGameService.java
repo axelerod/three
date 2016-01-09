@@ -37,6 +37,7 @@ public class MapBasedGameService implements GameService {
     public synchronized Game create(Game game) {
         String gameUuid = UUID.randomUUID().toString();
         game.setId(gameUuid);
+        game.setStatus(Status.NEW);
         games.put(gameUuid, game);
 
         return game;

@@ -65,5 +65,6 @@ public class MapBasedGameServiceTest {
 
         assertThat(savedGame.getId().length(), greaterThan(1));
         assertThat(savedGame.getStartNumber(), is(START_NUMBER));
+        assertThat(savedGame.getStatus(), is(Status.NEW));
     }
 }
