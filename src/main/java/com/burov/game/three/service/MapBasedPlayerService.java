@@ -18,4 +18,9 @@ public class MapBasedPlayerService implements PlayerService {
 
         return player;
     }
+
+    @Override
+    public Player getPlayer(String id) {
+        return players.get(id);
+    }
 }

@@ -4,4 +4,5 @@ import com.burov.game.three.model.Player;
 
 public interface PlayerService {
     Player registerPlayer(String name);
+    Player getPlayer(String id);
 }
