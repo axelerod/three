@@ -1,12 +1,13 @@
 package com.burov.game.three.service;
 
 import com.burov.game.three.model.Game;
+import com.burov.game.three.model.Player;
 import com.burov.game.three.model.Status;
 import com.google.common.annotations.VisibleForTesting;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 import static java.util.stream.Collectors.toList;
 
@@ -14,13 +15,18 @@ import static java.util.stream.Collectors.toList;
 public class MapBasedGameService implements GameService {
     private final Map<String, Game> games;
 
-    @VisibleForTesting
-    MapBasedGameService(Map<String, Game> games) {
-        this.games = games;
+    private final PlayerService playerService;
+
+    @Autowired
+    public MapBasedGameService(PlayerService playerService) {
+        this.playerService = playerService;
+        this.games = new HashMap<>();
     }
 
-    public MapBasedGameService() {
-        this.games = new HashMap<>();
+    @VisibleForTesting
+    MapBasedGameService(Map<String, Game> games, PlayerService playerService) {
+        this.games = games;
+        this.playerService = playerService;
     }
 
     @Override
@@ -41,5 +47,42 @@ public class MapBasedGameService implements GameService {
         games.put(gameUuid, game);
 
         return game;
+    }
+
+    @Override
+    public synchronized void applyToGame(Player player, String gameId) {
+        validatePlayer(player);
+        Game game = games.get(gameId);
+        validateGame(gameId, game);
+
+        Player firstPlayer = game.getFirstPlayer();
+        if (firstPlayer == null) {
+            game.setFirstPlayer(player);
+            game.setStatus(Status.WAITING_FOR_OPPONENT);
+            game.setPerformedLastMove(player);
+            return;
+        }
+        Player secondPlayer = game.getSecondPlayer();
+
+        if (secondPlayer == null) {
+            game.setSecondPlayer(player);
+            game.setStatus(Status.PLAYING);
+        }
+    }
+
+    private void validateGame(String gameId, Game game) {
+        if (game == null) {
+            throw new GameNotFoundException(String.format("Game '%s' not found", gameId));
+        }
+        Status status = game.getStatus();
+        if (!status.canApplyToGame()) {
+            throw new GameAlreadyStartedException(String.format("Game '%s' already started", gameId));
+        }
+    }
+
+    private void validatePlayer(Player player) {
+        if (playerService.getPlayer(player.getId()) == null) {
+            throw new UserNotRegisteredException(String.format("User '%s' not registered", player.getName()));
+        }
     }
 }

@@ -11,6 +11,7 @@ public class Game {
     private Player firstPlayer;
     private Player secondPlayer;
     private Status status;
+    private Player performedLastMove;
 
     public void setId(String id) {
         this.id = id;
@@ -76,5 +77,9 @@ public class Game {
     @Override
     public int hashCode() {
         return Objects.hashCode(id, firstPlayer, secondPlayer, status);
+    }
+
+    public void setPerformedLastMove(Player performedLastMove) {
+        this.performedLastMove = performedLastMove;
     }
 }

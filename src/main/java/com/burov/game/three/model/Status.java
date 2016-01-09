@@ -2,6 +2,7 @@ package com.burov.game.three.model;
 
 public enum Status {
     NEW("New game initialized by player"),
+    WAITING_FOR_OPPONENT("One player connected and waiting for opponent"),
     PLAYING("Game is currently in progress"),
     FINISHED("Game is finished");
 
@@ -10,4 +11,8 @@ public enum Status {
     }
 
     private String description;
+
+    public boolean canApplyToGame() {
+        return this == NEW || this == WAITING_FOR_OPPONENT;
+    }
 }
