@@ -1,4 +1,4 @@
-package com.burov.game.three.service;
+package com.burov.game.three;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

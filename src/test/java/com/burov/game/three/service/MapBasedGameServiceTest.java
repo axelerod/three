@@ -1,5 +1,8 @@
 package com.burov.game.three.service;
 
+import com.burov.game.three.GameAlreadyStartedException;
+import com.burov.game.three.GameNotFoundException;
+import com.burov.game.three.UserNotRegisteredException;
 import com.burov.game.three.model.Game;
 import com.burov.game.three.model.Player;
 import com.burov.game.three.model.Status;
