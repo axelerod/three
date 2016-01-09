@@ -33,7 +33,7 @@ public class MapBasedGameServiceTest {
     @Test
     public void shouldReturnGamesByStatus() {
 
-        List<Game> actualResult = testedInstance.listGames(Status.NEW);
+        List<Game> actualResult = testedInstance.listGames(new Status[]{Status.NEW});
 
         assertThat(actualResult, hasSize(1));
         assertThat(actualResult.get(0), is(gameWithNewStatus));
@@ -42,7 +42,7 @@ public class MapBasedGameServiceTest {
     @Test
     public void shouldReturnEmptyListGamesDoesNotSatisfyStatus() {
 
-        List<Game> actualResult = testedInstance.listGames(Status.FINISHED);
+        List<Game> actualResult = testedInstance.listGames(new Status[]{Status.FINISHED});
 
         assertThat(actualResult, hasSize(0));
     }

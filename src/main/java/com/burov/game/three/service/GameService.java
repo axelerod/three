@@ -6,5 +6,5 @@ import com.burov.game.three.model.Status;
 import java.util.List;
 
 public interface GameService {
-    List<Game> listGames(Status... statuses);
+    List<Game> listGames(Status[] statuses);
 }
