@@ -44,7 +44,7 @@ public class GameController {
     }
 
     @RequestMapping(path = "/{gameId}/players/{playerId}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public void applyToGame(@PathVariable("playerId") @NotNull @Size(min = 1) String playerId,
                             @PathVariable("gameId") @NotNull @Size(min = 1) String gameId,
                             @RequestBody @Valid Player player) {

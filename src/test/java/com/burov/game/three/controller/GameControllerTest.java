@@ -126,11 +126,11 @@ public class GameControllerTest {
     }
 
     @Test
-    public void shouldReturnCreatedWhenApplyToGame() throws Exception {
+    public void shouldReturnAcceptedWhenApplyToGame() throws Exception {
         mockMvc.perform(post("/games/{gameId}/players/{playerId}", GAME_ID, PLAYER_ID)
                 .content(playerAsJson())
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(status().isCreated());
+                .andExpect(status().isAccepted());
     }
 
     @Test
