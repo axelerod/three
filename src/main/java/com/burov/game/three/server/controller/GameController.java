@@ -1,9 +1,9 @@
-package com.burov.game.three.controller;
+package com.burov.game.three.server.controller;
 
-import com.burov.game.three.model.Game;
-import com.burov.game.three.model.Player;
-import com.burov.game.three.model.Status;
-import com.burov.game.three.service.GameService;
+import com.burov.game.three.shared.model.Game;
+import com.burov.game.three.shared.model.Player;
+import com.burov.game.three.shared.model.Status;
+import com.burov.game.three.server.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.websocket.server.PathParam;
 
 @RestController
 @RequestMapping(value = "/games")

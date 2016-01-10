@@ -1,6 +1,6 @@
-package com.burov.game.three.controller;
+package com.burov.game.three.server.controller;
 
-import com.burov.game.three.model.Player;
+import com.burov.game.three.shared.model.Player;
 
 public class PlayerResponse {
     private final Player player;

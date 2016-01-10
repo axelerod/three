@@ -1,7 +1,7 @@
-package com.burov.game.three.controller;
+package com.burov.game.three.server.controller;
 
-import com.burov.game.three.service.GameService;
-import com.burov.game.three.service.PlayerService;
+import com.burov.game.three.server.service.GameService;
+import com.burov.game.three.server.service.PlayerService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;

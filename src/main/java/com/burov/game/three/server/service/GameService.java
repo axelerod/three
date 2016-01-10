@@ -1,8 +1,8 @@
-package com.burov.game.three.service;
+package com.burov.game.three.server.service;
 
-import com.burov.game.three.model.Game;
-import com.burov.game.three.model.Player;
-import com.burov.game.three.model.Status;
+import com.burov.game.three.shared.model.Game;
+import com.burov.game.three.shared.model.Player;
+import com.burov.game.three.shared.model.Status;
 
 import java.util.List;
 

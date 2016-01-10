@@ -1,6 +1,6 @@
-package com.burov.game.three.controller;
+package com.burov.game.three.server.controller;
 
-import com.burov.game.three.model.Game;
+import com.burov.game.three.shared.model.Game;
 
 import java.util.List;
 

@@ -1,11 +1,11 @@
-package com.burov.game.three.controller;
+package com.burov.game.three.server.controller;
 
-import com.burov.game.three.Application;
-import com.burov.game.three.exceptions.GameAlreadyStartedException;
-import com.burov.game.three.model.Game;
-import com.burov.game.three.model.Player;
-import com.burov.game.three.model.Status;
-import com.burov.game.three.service.GameService;
+import com.burov.game.three.Main;
+import com.burov.game.three.server.exceptions.GameAlreadyStartedException;
+import com.burov.game.three.shared.model.Game;
+import com.burov.game.three.shared.model.Player;
+import com.burov.game.three.shared.model.Status;
+import com.burov.game.three.server.service.GameService;
 import com.google.common.collect.ImmutableList;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@SpringApplicationConfiguration({Application.class, MockConfiguration.class})
+@SpringApplicationConfiguration({Main.class, MockConfiguration.class})
 public class GameControllerTest {
 
     public static final String GAME_ID = "GameId";

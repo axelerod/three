@@ -1,6 +1,6 @@
-package com.burov.game.three.service;
+package com.burov.game.three.server.service;
 
-import com.burov.game.three.model.Player;
+import com.burov.game.three.shared.model.Player;
 
 public interface PlayerService {
     Player registerPlayer(String name);

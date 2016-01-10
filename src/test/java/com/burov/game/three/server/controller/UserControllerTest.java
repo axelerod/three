@@ -1,8 +1,8 @@
-package com.burov.game.three.controller;
+package com.burov.game.three.server.controller;
 
-import com.burov.game.three.Application;
-import com.burov.game.three.model.Player;
-import com.burov.game.three.service.PlayerService;
+import com.burov.game.three.Main;
+import com.burov.game.three.shared.model.Player;
+import com.burov.game.three.server.service.PlayerService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,14 +17,13 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@SpringApplicationConfiguration({Application.class, MockConfiguration.class})
+@SpringApplicationConfiguration({Main.class, MockConfiguration.class})
 public class UserControllerTest {
 
     public static final String PLAYER_NAME = "user name";

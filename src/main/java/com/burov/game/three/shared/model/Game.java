@@ -1,4 +1,4 @@
-package com.burov.game.three.model;
+package com.burov.game.three.shared.model;
 
 import com.google.common.base.Objects;
 
