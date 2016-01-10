@@ -1,7 +1,9 @@
 package com.burov.game.three.controller;
 
 import com.burov.game.three.Application;
+import com.burov.game.three.GameAlreadyStartedException;
 import com.burov.game.three.model.Game;
+import com.burov.game.three.model.Player;
 import com.burov.game.three.model.Status;
 import com.burov.game.three.service.GameService;
 import com.google.common.collect.ImmutableList;
@@ -20,14 +22,10 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.List;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -35,8 +33,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringApplicationConfiguration({Application.class, MockConfiguration.class})
 public class GameControllerTest {
 
-    public static final String GAME_ID = "Game Id";
-    public static final String PLAYER_ID = "Player Id";
+    public static final String GAME_ID = "GameId";
+    public static final String PLAYER_ID = "PlayerId";
     public static final String PLAYER_NAME = "Player name";
     public static final int START_NUMBER = 15;
 
@@ -102,6 +100,7 @@ public class GameControllerTest {
     private String newGameAsJson() {
         return "{\"id\":null,\"startNumber\":15,\"firstPlayer\":null,\"secondPlayer\":null,\"status\":null}";
     }
+
     private String newGameWithoutNumberAsJson() {
         return "{\"id\":null,\"startNumber\":null,\"firstPlayer\":null,\"secondPlayer\":null,\"status\":null}";
     }
@@ -124,6 +123,57 @@ public class GameControllerTest {
         mockMvc.perform(get("/games").accept(MediaType.APPLICATION_JSON_UTF8_VALUE));
 
         verify(getGameService()).listGames(Status.values());
+    }
+
+    @Test
+    public void shouldReturnCreatedWhenApplyToGame() throws Exception {
+        mockMvc.perform(post("/games/{gameId}/players/{playerId}", GAME_ID, PLAYER_ID)
+                .content(playerAsJson())
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void shouldValidatePlayer() throws Exception {
+        mockMvc.perform(post("/games/{gameId}/players/{playerId}", GAME_ID, PLAYER_ID)
+                .content(playerWithoutNameAsJson())
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void shouldReturnConflictInCaseGameAlreadyStarted() throws Exception {
+        doThrow(new GameAlreadyStartedException("Already started"))
+                .when(getGameService()).applyToGame(any(Player.class), eq(GAME_ID));
+
+        mockMvc.perform(post("/games/{gameId}/players/{playerId}", GAME_ID, PLAYER_ID)
+                .content(playerAsJson())
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isConflict());
+    }
+
+    @Test
+    public void shouldValidateInCaseGameIdNotDefined() throws Exception {
+        mockMvc.perform(post("/games/{gameId}/players/{playerId}", "", PLAYER_ID)
+                .content(playerAsJson())
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void shouldValidateInCasePlayerIdNotDefined() throws Exception {
+        mockMvc.perform(post("/games/{gameId}/players/{playerId}", GAME_ID, "")
+                .content(playerAsJson())
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().is4xxClientError());
+    }
+
+    private String playerAsJson() {
+        return "{\"name\":\"user name\",\"id\":\"player id\"}";
+    }
+
+    private String playerWithoutNameAsJson() {
+        return "{\"name\":null,\"id\":\"player id\"}";
     }
 
     private GameService getGameService() {

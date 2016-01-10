@@ -1,7 +1,11 @@
 package com.burov.game.three.model;
 
+import javax.validation.constraints.NotNull;
+
 public class Player {
+    @NotNull
     private String name;
+    @NotNull
     private String id;
 
     public Player() {
