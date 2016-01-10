@@ -56,14 +56,14 @@ public class GameControllerTest {
 
     @Test
     public void shouldAcceptJsonHeader() throws Exception {
-        mockMvc.perform(get("/games").accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+        mockMvc.perform(get("/games").accept(GameController.VERSION_HEADER))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void shouldRespondWithContentJsonType() throws Exception {
-        mockMvc.perform(get("/games").accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+    public void shouldRespondWithContentTypeVersion() throws Exception {
+        mockMvc.perform(get("/games").accept(GameController.VERSION_HEADER))
+                .andExpect(content().contentTypeCompatibleWith(GameController.VERSION_HEADER));
     }
 
     @Test
@@ -75,7 +75,7 @@ public class GameControllerTest {
     @Test
     public void shouldNotValidateGameWithoutStartNumber() throws Exception {
         mockMvc.perform(post("/games")
-                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .accept(GameController.VERSION_HEADER)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(newGameWithoutNumberAsJson()))
                 .andExpect(status().isBadRequest());
@@ -86,7 +86,7 @@ public class GameControllerTest {
         when(getGameService().create(any(Game.class))).thenReturn(gameWithId(START_NUMBER));
 
         mockMvc.perform(post("/games")
-                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .accept(GameController.VERSION_HEADER)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(newGameAsJson()))
                 .andExpect(status().isOk())
@@ -112,7 +112,7 @@ public class GameControllerTest {
     public void shouldLoadListOfGames() throws Exception {
         when(getGameService().listGames(new Status[]{Status.NEW})).thenReturn(listOfGames());
 
-        mockMvc.perform(get("/games").accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
+        mockMvc.perform(get("/games").accept(GameController.VERSION_HEADER)
                 .param("statuses", Status.NEW.name()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.games[0].id").value(GAME_ID))
@@ -123,7 +123,7 @@ public class GameControllerTest {
     public void shouldLoadGamesWithAllStatuses() throws Exception {
         when(getGameService().listGames(Status.values())).thenReturn(null);
 
-        mockMvc.perform(get("/games").accept(MediaType.APPLICATION_JSON_UTF8_VALUE));
+        mockMvc.perform(get("/games").accept(GameController.VERSION_HEADER));
 
         verify(getGameService()).listGames(Status.values());
     }
@@ -208,7 +208,7 @@ public class GameControllerTest {
         when(getGameService().move(any(Game.class), eq(PLAYER_ID), eq(GAME_ID))).thenReturn(gameWithId(ANOTHER_NUMBER));
 
         mockMvc.perform(put("/games/{gameId}/players/{playerId}", GAME_ID, PLAYER_ID)
-                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .accept(GameController.VERSION_HEADER)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(newGameAsJson()))
                 .andExpect(status().isOk())

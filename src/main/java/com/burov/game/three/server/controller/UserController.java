@@ -6,8 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping(value = "/users", produces = UserController.VERSION_HEADER)
 public class UserController {
+    public static final String VERSION_HEADER = "application/vnd.burov.three.v1+json";
 
     private final PlayerService playerService;
 

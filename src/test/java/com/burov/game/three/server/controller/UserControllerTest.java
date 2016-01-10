@@ -1,9 +1,8 @@
 package com.burov.game.three.server.controller;
 
-import com.burov.game.three.Main;
 import com.burov.game.three.server.ServerApplication;
-import com.burov.game.three.shared.model.Player;
 import com.burov.game.three.server.service.PlayerService;
+import com.burov.game.three.shared.model.Player;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,8 +17,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -39,14 +37,15 @@ public class UserControllerTest {
     @Before
     public void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
-//        reset(getGameService());
     }
 
     @Test
     public void shouldReturnCreatedStatusOnSuccess() throws Exception {
         mockMvc.perform(post("/users")
+                .accept(UserController.VERSION_HEADER)
                 .param("name", PLAYER_NAME))
-                .andExpect(status().is(HttpStatus.CREATED.value()));
+                .andExpect(status().is(HttpStatus.CREATED.value()))
+                .andExpect(content().contentType(UserController.VERSION_HEADER));
     }
 
     @Test

@@ -5,6 +5,7 @@ import com.burov.game.three.shared.model.Player;
 import com.burov.game.three.shared.model.Status;
 import com.burov.game.three.server.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +15,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @RestController
-@RequestMapping(value = "/games")
+@RequestMapping(value = "/games", produces = GameController.VERSION_HEADER)
 public class GameController {
 
+    public static final String VERSION_HEADER = "application/vnd.burov.three.v1+json";
     private GameService gameService;
 
     @Autowired
@@ -31,18 +33,18 @@ public class GameController {
      *                 not set, all games returned.
      * @return list of games
      */
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(method = RequestMethod.GET)
     public GamesResponse listGames(@RequestParam(name = "statuses", required = false) Status[] statuses) {
         return new GamesResponse(statuses == null ?
                 gameService.listGames(Status.values()) : gameService.listGames(statuses));
     }
 
-    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Game newGame(@RequestBody @Valid Game game) {
         return gameService.create(game);
     }
 
-    @RequestMapping(path = "/{gameId}/players/{playerId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(path = "/{gameId}/players/{playerId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Game move(@PathVariable("playerId") @NotNull @Size(min = 1) String playerId,
                      @PathVariable("gameId") @NotNull @Size(min = 1) String gameId,
                      @RequestBody @Valid Game game) {
