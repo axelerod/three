@@ -1,12 +1,10 @@
 package com.burov.game.three;
 
+import com.burov.game.three.server.ServerApplication;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.web.SpringBootServletInitializer;
 
-@SpringBootApplication
-public class Main extends SpringBootServletInitializer{
+public class Main {
     public static void main(String[] args) {
-        SpringApplication.run(Main.class, args);
+        SpringApplication.run(ServerApplication.class, args);
     }
 }

@@ -1,6 +1,7 @@
 package com.burov.game.three.server.controller;
 
 import com.burov.game.three.Main;
+import com.burov.game.three.server.ServerApplication;
 import com.burov.game.three.shared.model.Player;
 import com.burov.game.three.server.service.PlayerService;
 import org.junit.Before;
@@ -23,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@SpringApplicationConfiguration({Main.class, MockConfiguration.class})
+@SpringApplicationConfiguration({ServerApplication.class, MockConfiguration.class})
 public class UserControllerTest {
 
     public static final String PLAYER_NAME = "user name";
