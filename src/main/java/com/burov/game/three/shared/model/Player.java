@@ -1,5 +1,7 @@
 package com.burov.game.three.shared.model;
 
+import com.google.common.base.MoreObjects;
+
 import javax.validation.constraints.NotNull;
 
 public class Player {
@@ -22,5 +24,13 @@ public class Player {
 
     public String getId() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("name", name)
+                .add("id", id)
+                .toString();
     }
 }
