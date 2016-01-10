@@ -1,5 +1,6 @@
 package com.burov.game.three;
 
+import com.burov.game.three.client.ClientApplication;
 import com.burov.game.three.server.ServerApplication;
 import org.springframework.boot.SpringApplication;
 
@@ -12,7 +13,9 @@ public class Main {
 
         switch (mode) {
             case "client":
-                return;
+                System.setProperty("spring.config.name", "client");
+                ClientApplication.main(args);
+                break;
             case "server":
                 SpringApplication.run(ServerApplication.class, args);
                 break;
