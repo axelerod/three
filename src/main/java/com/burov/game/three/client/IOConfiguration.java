@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.io.PrintStream;
 
 @Configuration
-class ClientConfiguration {
+class IOConfiguration {
     @Bean
     InputStream getUserInputStream() {
         return System.in;
