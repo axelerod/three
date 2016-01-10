@@ -14,7 +14,9 @@ public class Main {
         switch (mode) {
             case "client":
                 System.setProperty("spring.config.name", "client");
-                ClientApplication.main(args);
+                SpringApplication clientApplication = new SpringApplication(ClientApplication.class);
+                clientApplication.setWebEnvironment(false);
+                clientApplication.run(args);
                 break;
             case "server":
                 SpringApplication.run(ServerApplication.class, args);
