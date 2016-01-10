@@ -43,7 +43,7 @@ public class PlayerControllerTest {
     public void shouldReturnCreatedStatusOnSuccess() throws Exception {
         mockMvc.perform(post("/players")
                 .accept(PlayerController.VERSION_HEADER)
-                .param("name", PLAYER_NAME))
+                .content(PLAYER_NAME))
                 .andExpect(status().is(HttpStatus.CREATED.value()))
                 .andExpect(content().contentType(PlayerController.VERSION_HEADER));
     }
@@ -59,9 +59,9 @@ public class PlayerControllerTest {
         when(getPlayerService().registerPlayer(PLAYER_NAME)).thenReturn(player());
 
         mockMvc.perform(post("/players")
-                .param("name", PLAYER_NAME))
-                .andExpect(jsonPath("$.player.id").value(PLAYER_ID))
-                .andExpect(jsonPath("$.player.name").value(PLAYER_NAME));
+                .content(PLAYER_NAME))
+                .andExpect(jsonPath("$.id").value(PLAYER_ID))
+                .andExpect(jsonPath("$.name").value(PLAYER_NAME));
     }
 
     private Player player() {

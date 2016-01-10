@@ -1,6 +1,7 @@
 package com.burov.game.three.server.controller;
 
 import com.burov.game.three.server.service.PlayerService;
+import com.burov.game.three.shared.model.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class PlayerController {
      */
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public PlayerResponse newPlayer(@RequestParam("name") String name) {
-        return new PlayerResponse(playerService.registerPlayer(name));
+    public Player newPlayer(@RequestBody String name) {
+        return playerService.registerPlayer(name);
     }
 }
