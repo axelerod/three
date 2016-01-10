@@ -25,6 +25,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -37,6 +38,7 @@ public class GameControllerTest {
     public static final String PLAYER_ID = "PlayerId";
     public static final String PLAYER_NAME = "Player name";
     public static final int START_NUMBER = 15;
+    public static final int ANOTHER_NUMBER = 5;
 
     @Autowired
     private WebApplicationContext context;
@@ -70,7 +72,7 @@ public class GameControllerTest {
     }
 
     @Test
-    public void shouldNotValidateGameWithoutStartNmber() throws Exception {
+    public void shouldNotValidateGameWithoutStartNumber() throws Exception {
         mockMvc.perform(post("/games")
                 .accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -80,7 +82,7 @@ public class GameControllerTest {
 
     @Test
     public void shouldSaveNewGame() throws Exception {
-        when(getGameService().create(any(Game.class))).thenReturn(gameWithId());
+        when(getGameService().create(any(Game.class))).thenReturn(gameWithId(START_NUMBER));
 
         mockMvc.perform(post("/games")
                 .accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -91,8 +93,8 @@ public class GameControllerTest {
                 .andExpect(jsonPath("$.number").value(START_NUMBER));
     }
 
-    private Game gameWithId() {
-        Game game = new Game(START_NUMBER);
+    private Game gameWithId(int startNumber) {
+        Game game = new Game(startNumber);
         game.setId(GAME_ID);
         return game;
     }
@@ -153,7 +155,7 @@ public class GameControllerTest {
     }
 
     @Test
-    public void shouldValidateInCaseGameIdNotDefined() throws Exception {
+    public void shouldValidateApplyInCaseGameIdNotDefined() throws Exception {
         mockMvc.perform(post("/games/{gameId}/players/{playerId}", "", PLAYER_ID)
                 .content(playerAsJson())
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
@@ -161,11 +163,56 @@ public class GameControllerTest {
     }
 
     @Test
-    public void shouldValidateInCasePlayerIdNotDefined() throws Exception {
+    public void shouldValidateApplyInCasePlayerIdNotDefined() throws Exception {
         mockMvc.perform(post("/games/{gameId}/players/{playerId}", GAME_ID, "")
                 .content(playerAsJson())
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void shouldValidateMoveInCasePlayerIdNotDefined() throws Exception {
+        mockMvc.perform(put("/games/{gameId}/players/{playerId}", GAME_ID, "")
+                .content(newGameAsJson())
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void shouldValidateMoveInCaseGameIdNotDefined() throws Exception {
+        mockMvc.perform(put("/games/{gameId}/players/{playerId}", "", PLAYER_ID)
+                .content(newGameAsJson())
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void shouldValidateMoveInCaseGameWithoutNumber() throws Exception {
+        mockMvc.perform(put("/games/{gameId}/players/{playerId}", GAME_ID, PLAYER_ID)
+                .content(newGameWithoutNumberAsJson())
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void shouldRespondAcceptedOnMoveIfSuccess() throws Exception {
+        mockMvc.perform(put("/games/{gameId}/players/{playerId}", GAME_ID, PLAYER_ID)
+                .content(newGameAsJson())
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void shouldReturnUpdatedModel() throws Exception {
+        when(getGameService().move(any(Game.class), eq(PLAYER_ID), eq(GAME_ID))).thenReturn(gameWithId(ANOTHER_NUMBER));
+
+        mockMvc.perform(put("/games/{gameId}/players/{playerId}", GAME_ID, PLAYER_ID)
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(newGameAsJson()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(GAME_ID))
+                .andExpect(jsonPath("$.number").value(ANOTHER_NUMBER));
     }
 
     private String playerAsJson() {

@@ -43,6 +43,13 @@ public class GameController {
         return gameService.create(game);
     }
 
+    @RequestMapping(path = "/{gameId}/players/{playerId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Game move(@PathVariable("playerId") @NotNull @Size(min = 1) String playerId,
+                     @PathVariable("gameId") @NotNull @Size(min = 1) String gameId,
+                     @RequestBody @Valid Game game) {
+        return gameService.move(game, playerId, gameId);
+    }
+
     @RequestMapping(path = "/{gameId}/players/{playerId}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void applyToGame(@PathVariable("playerId") @NotNull @Size(min = 1) String playerId,
