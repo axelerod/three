@@ -85,6 +85,6 @@ public class Game {
 
     public Player getPlayer(String playerId) {
         return firstPlayer.getId().equals(playerId) ? firstPlayer
-                : secondPlayer.getId().equals(playerId)? secondPlayer : null;
+                : secondPlayer.getId().equals(playerId) ? secondPlayer : null;
     }
 }

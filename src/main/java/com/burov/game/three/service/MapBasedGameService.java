@@ -1,8 +1,6 @@
 package com.burov.game.three.service;
 
-import com.burov.game.three.GameAlreadyStartedException;
-import com.burov.game.three.GameNotFoundException;
-import com.burov.game.three.UserNotRegisteredException;
+import com.burov.game.three.exceptions.*;
 import com.burov.game.three.model.Game;
 import com.burov.game.three.model.Player;
 import com.burov.game.three.model.Status;
@@ -56,7 +54,7 @@ public class MapBasedGameService implements GameService {
     public synchronized void applyToGame(Player player, String gameId) {
         validatePlayer(player);
         Game game = games.get(gameId);
-        validateGame(gameId, game);
+        validateGameForApplying(gameId, game);
 
         Player firstPlayer = game.getFirstPlayer();
         if (firstPlayer == null) {
@@ -73,7 +71,38 @@ public class MapBasedGameService implements GameService {
         }
     }
 
-    private void validateGame(String gameId, Game game) {
+    @Override
+    public synchronized Game move(Game updatedGame, String playerId, String gameId) {
+        Game savedGame = games.get(gameId);
+        if (savedGame == null) {
+            throw new GameNotFoundException(String.format("Game '%s' not found", gameId));
+        }
+        Player player = savedGame.getPlayer(playerId);
+        if (player == null) {
+            throw new PlayerNotAllowedException("Game is played by other players");
+        }
+        if (savedGame.getPerformedLastMove().getId().equals(playerId)) {
+            throw new WrongTurnException("Please, wait for another player to move");
+        }
+
+        if (savedGame.getStatus() == Status.FINISHED) {
+            games.remove(gameId);
+            return savedGame;
+        }
+
+        Integer number = updatedGame.getNumber();
+
+        savedGame.setNumber(number);
+        savedGame.setPerformedLastMove(player);
+        if (1 == number) {
+            savedGame.setStatus(Status.FINISHED);
+        }
+
+        return savedGame;
+
+    }
+
+    private void validateGameForApplying(String gameId, Game game) {
         if (game == null) {
             throw new GameNotFoundException(String.format("Game '%s' not found", gameId));
         }

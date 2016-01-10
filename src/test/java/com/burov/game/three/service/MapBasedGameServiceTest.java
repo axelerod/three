@@ -1,8 +1,8 @@
 package com.burov.game.three.service;
 
-import com.burov.game.three.GameAlreadyStartedException;
-import com.burov.game.three.GameNotFoundException;
-import com.burov.game.three.UserNotRegisteredException;
+import com.burov.game.three.exceptions.GameAlreadyStartedException;
+import com.burov.game.three.exceptions.GameNotFoundException;
+import com.burov.game.three.exceptions.UserNotRegisteredException;
 import com.burov.game.three.model.Game;
 import com.burov.game.three.model.Player;
 import com.burov.game.three.model.Status;
@@ -159,7 +159,7 @@ public class MapBasedGameServiceTest {
         Game savedGame = testedInstance.create(new Game(START_NUMBER));
 
         assertThat(savedGame.getId().length(), greaterThan(1));
-        assertThat(savedGame.getStartNumber(), is(START_NUMBER));
+        assertThat(savedGame.getNumber(), is(START_NUMBER));
         assertThat(savedGame.getStatus(), is(Status.NEW));
     }
 }
