@@ -77,6 +77,13 @@ public class MapBasedGameService implements GameService {
         if (savedGame == null) {
             throw new GameNotFoundException(String.format("Game '%s' not found", gameId));
         }
+        if (savedGame.getStatus() == Status.FINISHED) {
+            games.remove(gameId);
+            return savedGame;
+        }
+        if (savedGame.getStatus() != Status.PLAYING) {
+            throw new GameNotPlayingException("Game can't be played: opponent absent or game finished");
+        }
         Player player = savedGame.getPlayer(playerId);
         if (player == null) {
             throw new PlayerNotAllowedException("Game is played by other players");
@@ -85,10 +92,6 @@ public class MapBasedGameService implements GameService {
             throw new WrongTurnException("Please, wait for another player to move");
         }
 
-        if (savedGame.getStatus() == Status.FINISHED) {
-            games.remove(gameId);
-            return savedGame;
-        }
 
         Integer number = updatedGame.getNumber();
 

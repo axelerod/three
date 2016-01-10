@@ -3,7 +3,7 @@ package com.burov.game.three.exceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "User is not registered")
+@ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Game can't be played")
 public class UserNotRegisteredException extends RuntimeException {
     public UserNotRegisteredException(String message) {
         super(message);
