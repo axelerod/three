@@ -6,14 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/users", produces = UserController.VERSION_HEADER)
-public class UserController {
+@RequestMapping(value = "/players", produces = PlayerController.VERSION_HEADER)
+public class PlayerController {
     public static final String VERSION_HEADER = "application/vnd.burov.three.v1+json";
 
     private final PlayerService playerService;
 
     @Autowired
-    public UserController(PlayerService playerService) {
+    public PlayerController(PlayerService playerService) {
         this.playerService = playerService;
     }
 

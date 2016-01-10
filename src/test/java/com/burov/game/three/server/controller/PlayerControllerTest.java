@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @SpringApplicationConfiguration({ServerApplication.class, MockConfiguration.class})
-public class UserControllerTest {
+public class PlayerControllerTest {
 
     public static final String PLAYER_NAME = "user name";
     public static final String PLAYER_ID = "player id";
@@ -41,16 +41,16 @@ public class UserControllerTest {
 
     @Test
     public void shouldReturnCreatedStatusOnSuccess() throws Exception {
-        mockMvc.perform(post("/users")
-                .accept(UserController.VERSION_HEADER)
+        mockMvc.perform(post("/players")
+                .accept(PlayerController.VERSION_HEADER)
                 .param("name", PLAYER_NAME))
                 .andExpect(status().is(HttpStatus.CREATED.value()))
-                .andExpect(content().contentType(UserController.VERSION_HEADER));
+                .andExpect(content().contentType(PlayerController.VERSION_HEADER));
     }
 
     @Test
     public void shouldReturnBadRequestInCaseNameNotPassed() throws Exception {
-        mockMvc.perform(post("/users"))
+        mockMvc.perform(post("/players"))
                 .andExpect(status().isBadRequest());
     }
 
@@ -58,7 +58,7 @@ public class UserControllerTest {
     public void shouldRegisterNewPlayer() throws Exception {
         when(getPlayerService().registerPlayer(PLAYER_NAME)).thenReturn(player());
 
-        mockMvc.perform(post("/users")
+        mockMvc.perform(post("/players")
                 .param("name", PLAYER_NAME))
                 .andExpect(jsonPath("$.player.id").value(PLAYER_ID))
                 .andExpect(jsonPath("$.player.name").value(PLAYER_NAME));
