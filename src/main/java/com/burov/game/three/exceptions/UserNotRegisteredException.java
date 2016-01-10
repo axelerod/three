@@ -1,11 +1,11 @@
-package com.burov.game.three;
+package com.burov.game.three.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "User is not registered")
-public class GameNotFoundException extends RuntimeException {
-    public GameNotFoundException(String message) {
+public class UserNotRegisteredException extends RuntimeException {
+    public UserNotRegisteredException(String message) {
         super(message);
     }
 }

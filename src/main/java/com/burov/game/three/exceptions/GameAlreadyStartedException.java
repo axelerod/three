@@ -1,4 +1,4 @@
-package com.burov.game.three;
+package com.burov.game.three.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
