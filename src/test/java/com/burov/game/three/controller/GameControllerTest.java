@@ -1,7 +1,7 @@
 package com.burov.game.three.controller;
 
 import com.burov.game.three.Application;
-import com.burov.game.three.GameAlreadyStartedException;
+import com.burov.game.three.exceptions.GameAlreadyStartedException;
 import com.burov.game.three.model.Game;
 import com.burov.game.three.model.Player;
 import com.burov.game.three.model.Status;
@@ -88,7 +88,7 @@ public class GameControllerTest {
                 .content(newGameAsJson()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(GAME_ID))
-                .andExpect(jsonPath("$.startNumber").value(START_NUMBER));
+                .andExpect(jsonPath("$.number").value(START_NUMBER));
     }
 
     private Game gameWithId() {
@@ -98,11 +98,11 @@ public class GameControllerTest {
     }
 
     private String newGameAsJson() {
-        return "{\"id\":null,\"startNumber\":15,\"firstPlayer\":null,\"secondPlayer\":null,\"status\":null}";
+        return "{\"id\":null,\"number\":15,\"firstPlayer\":null,\"secondPlayer\":null,\"status\":null}";
     }
 
     private String newGameWithoutNumberAsJson() {
-        return "{\"id\":null,\"startNumber\":null,\"firstPlayer\":null,\"secondPlayer\":null,\"status\":null}";
+        return "{\"id\":null,\"number\":null,\"firstPlayer\":null,\"secondPlayer\":null,\"status\":null}";
     }
 
     @Test
@@ -113,7 +113,7 @@ public class GameControllerTest {
                 .param("statuses", Status.NEW.name()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.games[0].id").value(GAME_ID))
-                .andExpect(jsonPath("$.games[0].startNumber").value(START_NUMBER));
+                .andExpect(jsonPath("$.games[0].number").value(START_NUMBER));
     }
 
     @Test

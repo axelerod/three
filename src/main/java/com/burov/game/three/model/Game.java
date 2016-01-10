@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 public class Game {
     private String id;
     @NotNull
-    private Integer startNumber;
+    private Integer number;
     private Player firstPlayer;
     private Player secondPlayer;
     private Status status;
@@ -18,21 +18,24 @@ public class Game {
     }
 
 
-
-    public void setStartNumber(Integer startNumber) {
-        this.startNumber = startNumber;
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
     public void setFirstPlayer(Player firstPlayer) {
         this.firstPlayer = firstPlayer;
     }
 
+    public Player getPerformedLastMove() {
+        return performedLastMove;
+    }
+
     public Game() {
     }
 
-    public Game(Integer startNumber) {
+    public Game(Integer number) {
 
-        this.startNumber = startNumber;
+        this.number = number;
     }
 
     public Player getFirstPlayer() {
@@ -47,8 +50,8 @@ public class Game {
         return status;
     }
 
-    public Integer getStartNumber() {
-        return startNumber;
+    public Integer getNumber() {
+        return number;
     }
 
     public void setStatus(Status status) {
@@ -68,18 +71,20 @@ public class Game {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Game game = (Game) o;
-        return Objects.equal(id, game.id) &&
-                Objects.equal(firstPlayer, game.firstPlayer) &&
-                Objects.equal(secondPlayer, game.secondPlayer) &&
-                Objects.equal(status, game.status);
+        return Objects.equal(id, game.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, firstPlayer, secondPlayer, status);
+        return Objects.hashCode(id);
     }
 
     public void setPerformedLastMove(Player performedLastMove) {
         this.performedLastMove = performedLastMove;
+    }
+
+    public Player getPlayer(String playerId) {
+        return firstPlayer.getId().equals(playerId) ? firstPlayer
+                : secondPlayer.getId().equals(playerId)? secondPlayer : null;
     }
 }
