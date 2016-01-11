@@ -86,7 +86,7 @@ public class GameControllerTest {
                 .accept(GameController.VERSION_HEADER)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(newGameAsJson()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(GAME_ID))
                 .andExpect(jsonPath("$.number").value(START_NUMBER));
     }

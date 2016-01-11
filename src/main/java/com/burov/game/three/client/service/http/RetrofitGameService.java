@@ -27,4 +27,8 @@ public interface RetrofitGameService {
     @GET("/games/{gameId}")
     @Headers("Accept: application/vnd.burov.three.v1+json")
     Call<Game> getGame(@Path("gameId") String gameId);
+
+    @DELETE("/games/{gameId}")
+    @Headers("Accept: application/vnd.burov.three.v1+json")
+    Call<Void> deleteGame(@Path("gameId") String gameId);
 }

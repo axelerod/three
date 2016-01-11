@@ -29,7 +29,7 @@ public class GameManager {
                 .put(startingStage, Directions.direct(selectGameStage, endStage))
                 .put(selectGameStage, Directions.direct(playStage, endStage))
                 .put(playStage, Directions.direct(endStage, endStage))
-                .put(endStage, Directions.direct(null, playStage))
+                .put(endStage, Directions.direct(null, startingStage))
                 .build();
     }
 

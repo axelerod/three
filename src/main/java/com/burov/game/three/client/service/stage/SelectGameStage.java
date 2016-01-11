@@ -49,7 +49,7 @@ public class SelectGameStage implements Stage {
 
         if (games.isEmpty()) {
             System.out.println("No games available for applying");
-            withFailedStage();
+            return withFailedStage();
         }
 
         List<String> opponents = getOpponentNames(games);
@@ -84,7 +84,7 @@ public class SelectGameStage implements Stage {
         Integer enteredNumber = communicationService.enterNumber();
         Optional<Game> createdGame = gameService.newGame(new Game(enteredNumber, 0, 0));
         if (!createdGame.isPresent()) {
-            withFailedStage();
+            return withFailedStage();
         }
         Optional<Game> gameWithApplyedUser = gameService.applyToGame(createdGame.get().getId(), player.getId(), player);
 

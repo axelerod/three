@@ -43,7 +43,14 @@ public class GameController {
         return gameService.getGame(gameId);
     }
 
+    @RequestMapping(path = "/{gameId}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void deleteGame(@PathVariable("gameId") @NotNull @Size(min = 1) String gameId) {
+        gameService.delete(gameId);
+    }
+
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
     public Game newGame(@RequestBody @Valid Game game) {
         return gameService.create(game);
     }

@@ -51,4 +51,10 @@ public class GameService {
         return new CallProcessor<>(HttpStatus.ACCEPTED, updatedGame, "Can't get info about game: ")
                 .process();
     }
+
+    public void remove(String gameId) {
+        Call<Void> voidCall = gameService.deleteGame(gameId);
+        new CallProcessor<>(HttpStatus.ACCEPTED, voidCall, "Can't delete game")
+        .process();
+    }
 }

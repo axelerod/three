@@ -16,4 +16,6 @@ public interface GameService {
     Game move(Game game, String playerId, String gameId);
 
     Game getGame(String gameId);
+
+    void delete(String gameId);
 }

@@ -46,7 +46,7 @@ public class PlayStage implements Stage {
             System.out.println("Waiting for opponent...");
             Optional<Game> updatedGame = waitForOpponent(game, this::isAbleToStartPlay);
             if (!updatedGame.isPresent()) {
-                // todo remove game
+                gameService.remove(game.getId());
                 return withFailedStage();
             }
             System.out.println("Opponent connected:" + updatedGame.get().getSecondPlayer().getName() +
