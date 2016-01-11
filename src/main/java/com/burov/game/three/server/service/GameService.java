@@ -14,4 +14,6 @@ public interface GameService {
     Game applyToGame(Player player, String gameId);
 
     Game move(Game game, String playerId, String gameId);
+
+    Game getGame(String gameId);
 }

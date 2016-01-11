@@ -40,6 +40,11 @@ public class GameController {
                 gameService.listGames(Status.values()) : gameService.listGames(statuses));
     }
 
+    @RequestMapping(path = "/{gameId}", method = RequestMethod.GET)
+    public Game getGame(@PathVariable("gameId") @NotNull @Size(min = 1) String gameId) {
+        return gameService.getGame(gameId);
+    }
+
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Game newGame(@RequestBody @Valid Game game) {
         return gameService.create(game);

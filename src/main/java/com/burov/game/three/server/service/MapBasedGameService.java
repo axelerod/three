@@ -106,6 +106,15 @@ public class MapBasedGameService implements GameService {
 
     }
 
+    @Override
+    public Game getGame(String gameId) {
+        Game game = games.get(gameId);
+        if (game == null) {
+            throw new GameNotFoundException(String.format("Game '%s' not found", gameId));
+        }
+        return game;
+    }
+
     private void validateGameForApplying(String gameId, Game game) {
         if (game == null) {
             throw new GameNotFoundException(String.format("Game '%s' not found", gameId));

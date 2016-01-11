@@ -1,12 +1,11 @@
 package com.burov.game.three.server.controller;
 
-import com.burov.game.three.Main;
 import com.burov.game.three.server.ServerApplication;
 import com.burov.game.three.server.exceptions.GameAlreadyStartedException;
+import com.burov.game.three.server.service.GameService;
 import com.burov.game.three.shared.model.Game;
 import com.burov.game.three.shared.model.Player;
 import com.burov.game.three.shared.model.Status;
-import com.burov.game.three.server.service.GameService;
 import com.google.common.collect.ImmutableList;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,9 +23,7 @@ import java.util.List;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -126,6 +123,17 @@ public class GameControllerTest {
         mockMvc.perform(get("/games").accept(GameController.VERSION_HEADER));
 
         verify(getGameService()).listGames(Status.values());
+    }
+
+    @Test
+    public void shouldLoadGame() throws Exception {
+        when(getGameService().getGame(GAME_ID)).thenReturn(gameWithId(13));
+
+        mockMvc.perform(get("/games/{gameId}", GAME_ID)
+                .accept(GameController.VERSION_HEADER))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(GAME_ID))
+                .andExpect(jsonPath("$.number").value(13));
     }
 
     @Test
