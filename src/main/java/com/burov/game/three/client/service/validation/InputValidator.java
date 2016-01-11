@@ -12,4 +12,13 @@ public class InputValidator {
                 .findFirst()
                 .isPresent();
     }
+
+    public boolean validateInteger(String input) {
+        try {
+            Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
 }

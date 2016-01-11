@@ -5,6 +5,8 @@ import com.google.common.collect.ImmutableList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserCommunicationService {
     private final InputReaderService inputReaderService;
@@ -22,17 +24,44 @@ public class UserCommunicationService {
 
 
     public boolean shouldStartNewGame() {
-        boolean rightAnswer = false;
+        return binaryQuestion("C", "A",
+                "Do you want to [C]reate game or [A]pply to existing one?");
+    }
 
-        String kindOfGameResponse = null;
+    private boolean binaryQuestion(String mappedToTrue, String mappedToFalse, String message) {
+
+        ImmutableList<String> responses = ImmutableList.of(mappedToTrue, mappedToFalse);
+        String selectedValue = selectValue(message, responses);
+
+        return mappedToTrue.equals(selectedValue);
+    }
+
+    private String selectValue(String message, List<String> responses) {
+        boolean rightAnswer = false;
+        String enteredValue = null;
         while (!rightAnswer) {
-            ImmutableList<String> responseValues = ImmutableList.of("C", "A");
-            kindOfGameResponse = inputReaderService.getString(
-                    "Do you want to Create game or Apply to existing one?",
-                    responseValues);
-            rightAnswer = inputValidator.validate(kindOfGameResponse, responseValues);
+            enteredValue = inputReaderService.getString(message, responses);
+            rightAnswer = inputValidator.validate(enteredValue, responses);
+        }
+        return enteredValue;
+    }
+
+    public boolean shouldFinish() {
+        return binaryQuestion("E", "P", "Do you want to [E]xit or [P]lay again?");
+    }
+
+    public String selectGame(List<String> opponents) {
+        return selectValue("Please select your opponent by entering his name.", opponents);
+    }
+
+    public Integer enterNumber() {
+        boolean rightAnswer = false;
+        String enteredValue = null;
+        while (!rightAnswer) {
+            enteredValue = inputReaderService.getString("Please, enter start number: ");
+            rightAnswer = inputValidator.validateInteger(enteredValue);
         }
 
-        return "A".equals(kindOfGameResponse);
+        return Integer.parseInt(enteredValue);
     }
 }
