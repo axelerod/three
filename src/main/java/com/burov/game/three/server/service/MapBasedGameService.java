@@ -51,7 +51,7 @@ public class MapBasedGameService implements GameService {
     }
 
     @Override
-    public synchronized void applyToGame(Player player, String gameId) {
+    public synchronized Game applyToGame(Player player, String gameId) {
         validatePlayer(player);
         Game game = games.get(gameId);
         validateGameForApplying(gameId, game);
@@ -61,7 +61,7 @@ public class MapBasedGameService implements GameService {
             game.setFirstPlayer(player);
             game.setStatus(Status.WAITING_FOR_OPPONENT);
             game.setPerformedLastMove(player);
-            return;
+            return game;
         }
         Player secondPlayer = game.getSecondPlayer();
 
@@ -69,6 +69,7 @@ public class MapBasedGameService implements GameService {
             game.setSecondPlayer(player);
             game.setStatus(Status.PLAYING);
         }
+        return game;
     }
 
     @Override

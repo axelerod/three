@@ -11,7 +11,7 @@ public interface GameService {
 
     Game create(Game game);
 
-    void applyToGame(Player player, String gameId);
+    Game applyToGame(Player player, String gameId);
 
     Game move(Game game, String playerId, String gameId);
 }

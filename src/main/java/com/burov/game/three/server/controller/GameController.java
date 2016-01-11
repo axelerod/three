@@ -34,6 +34,7 @@ public class GameController {
      * @return list of games
      */
     @RequestMapping(method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.CREATED)
     public GamesResponse listGames(@RequestParam(name = "statuses", required = false) Status[] statuses) {
         return new GamesResponse(statuses == null ?
                 gameService.listGames(Status.values()) : gameService.listGames(statuses));
@@ -53,9 +54,9 @@ public class GameController {
 
     @RequestMapping(path = "/{gameId}/players/{playerId}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void applyToGame(@PathVariable("playerId") @NotNull @Size(min = 1) String playerId,
+    public Game applyToGame(@PathVariable("playerId") @NotNull @Size(min = 1) String playerId,
                             @PathVariable("gameId") @NotNull @Size(min = 1) String gameId,
                             @RequestBody @Valid Player player) {
-        gameService.applyToGame(player, gameId);
+        return gameService.applyToGame(player, gameId);
     }
 }
