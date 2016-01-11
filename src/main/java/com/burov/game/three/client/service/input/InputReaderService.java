@@ -1,4 +1,4 @@
-package com.burov.game.three.client.service;
+package com.burov.game.three.client.service.input;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.burov.game.three.client.service;
+package com.burov.game.three.client.service.validation;
 
 import org.springframework.stereotype.Service;
 

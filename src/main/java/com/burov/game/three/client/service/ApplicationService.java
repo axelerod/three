@@ -1,38 +1,44 @@
 package com.burov.game.three.client.service;
 
-import com.google.common.collect.ImmutableList;
+import com.burov.game.three.client.service.http.GameService;
+import com.burov.game.three.client.service.http.PlayerService;
+import com.burov.game.three.client.service.input.UserCommunicationService;
+import com.burov.game.three.shared.model.Player;
+import com.burov.game.three.shared.model.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class ApplicationService {
 
-    private final InputReaderService inputReaderService;
-    private final InputValidator inputValidator;
+    private final UserCommunicationService communicationService;
+    private final PlayerService playerService;
+    private final GameService gameService;
 
     @Autowired
-    public ApplicationService(InputReaderService inputReaderService, InputValidator inputValidator) {
-        this.inputReaderService = inputReaderService;
-        this.inputValidator = inputValidator;
+    public ApplicationService(UserCommunicationService communicationService,
+                              PlayerService playerService,
+                              GameService gameService) {
+        this.communicationService = communicationService;
+        this.playerService = playerService;
+        this.gameService = gameService;
     }
 
     public void start() {
-        String userName = inputReaderService.getString("Enter your name: ");
-        boolean startNewGame = readKindOfGame();
-    }
-
-    private boolean readKindOfGame() {
-        boolean rightAnswer = false;
-
-        String kindOfGameResponse = null;
-        while (!rightAnswer) {
-            ImmutableList<String> responseValues = ImmutableList.of("C", "A");
-            kindOfGameResponse = inputReaderService.getString(
-                    "Do you want to Create game or Apply to existing one?",
-                    responseValues);
-            rightAnswer = inputValidator.validate(kindOfGameResponse, responseValues);
+        String userName = communicationService.getUserName();
+        Optional<Player> player = playerService.registerPlayer(userName);
+        if (!player.isPresent()) {
+            return;
         }
 
-        return "A".equals(kindOfGameResponse);
+        boolean startNewGame = communicationService.shouldStartNewGame();
+
+        if (startNewGame) {
+            return;
+        } else {
+            gameService.listGames(Status.WAITING_FOR_OPPONENT);
+        }
     }
 }

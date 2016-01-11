@@ -1,6 +1,7 @@
 package com.burov.game.three.client;
 
-import com.burov.game.three.client.service.RetrofitPlayerService;
+import com.burov.game.three.client.service.http.RetrofitGameService;
+import com.burov.game.three.client.service.http.RetrofitPlayerService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +20,12 @@ public class HttpConfiguration {
     }
 
     @Bean
-    RetrofitPlayerService playerService(Retrofit factory) {
+    RetrofitPlayerService retrofitPlayerService(Retrofit factory) {
         return factory.create(RetrofitPlayerService.class);
+    }
+
+    @Bean
+    RetrofitGameService retrofitGameService(Retrofit factory) {
+        return factory.create(RetrofitGameService.class);
     }
 }
