@@ -82,7 +82,7 @@ public class SelectGameStage implements Stage {
 
     private Context newGame(Player player) {
         Integer enteredNumber = communicationService.enterNumber();
-        Optional<Game> createdGame = gameService.newGame(new Game(enteredNumber));
+        Optional<Game> createdGame = gameService.newGame(new Game(enteredNumber, 0, 0));
         if (!createdGame.isPresent()) {
             withFailedStage();
         }

@@ -12,11 +12,39 @@ public class Game {
     private Player secondPlayer;
     private Status status;
     private Player performedLastMove;
+    @NotNull
+    private Integer previosNumber;
+    @NotNull
+    private Integer addedNumber;
+
+    public Game() {
+    }
+
+    public Game(Integer number, Integer previosNumber, Integer addedNumber) {
+        this.number = number;
+        this.previosNumber = previosNumber;
+        this.addedNumber = addedNumber;
+    }
+
+    public Integer getAddedNumber() {
+        return addedNumber;
+    }
+
+    public void setAddedNumber(Integer addedNumber) {
+        this.addedNumber = addedNumber;
+    }
+
+    public Integer getPreviosNumber() {
+        return previosNumber;
+    }
+
+    public void setPreviosNumber(Integer previosNumber) {
+        this.previosNumber = previosNumber;
+    }
 
     public void setId(String id) {
         this.id = id;
     }
-
 
     public void setNumber(Integer number) {
         this.number = number;
@@ -28,14 +56,6 @@ public class Game {
 
     public Player getPerformedLastMove() {
         return performedLastMove;
-    }
-
-    public Game() {
-    }
-
-    public Game(Integer number) {
-
-        this.number = number;
     }
 
     public Player getFirstPlayer() {

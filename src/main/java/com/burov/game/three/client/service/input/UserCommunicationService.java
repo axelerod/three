@@ -64,4 +64,20 @@ public class UserCommunicationService {
 
         return Integer.parseInt(enteredValue);
     }
+
+    public boolean shouldWaitAgain() {
+        return binaryQuestion("W", "L", "Do you want to [W]ait again or [L]eave this game?");
+    }
+
+    public Integer enterNewNumber(Integer number) {
+        boolean rightAnswer = false;
+        String enteredValue = null;
+        while (!rightAnswer) {
+            enteredValue = inputReaderService.getString("Please, enter new number adding one of {-1,0,1}, " +
+                    "to get a number divedable by 3: ");
+            rightAnswer = inputValidator.validateInteger(enteredValue, number);
+        }
+
+        return Integer.parseInt(enteredValue);
+    }
 }

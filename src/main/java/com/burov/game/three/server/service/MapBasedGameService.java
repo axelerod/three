@@ -97,7 +97,10 @@ public class MapBasedGameService implements GameService {
         Integer number = updatedGame.getNumber();
 
         savedGame.setNumber(number);
+        savedGame.setPreviosNumber(updatedGame.getPreviosNumber());
+        savedGame.setAddedNumber(updatedGame.getAddedNumber());
         savedGame.setPerformedLastMove(player);
+
         if (1 == number) {
             savedGame.setStatus(Status.FINISHED);
         }
@@ -107,7 +110,7 @@ public class MapBasedGameService implements GameService {
     }
 
     @Override
-    public Game getGame(String gameId) {
+    public synchronized Game getGame(String gameId) {
         Game game = games.get(gameId);
         if (game == null) {
             throw new GameNotFoundException(String.format("Game '%s' not found", gameId));

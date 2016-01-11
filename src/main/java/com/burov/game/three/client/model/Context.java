@@ -42,4 +42,8 @@ public class Context {
     public static Context newContext(Game game, Player player) {
         return new Context(game, player, true);
     }
+
+    public static Context success() {
+        return new Context(null,null, true);
+    }
 }

@@ -21,4 +21,13 @@ public class InputValidator {
         }
         return true;
     }
+
+    public boolean validateInteger(String input, Integer baseValue) {
+        try {
+            int enteredValue = Integer.parseInt(input);
+            return (Math.abs(enteredValue - baseValue) <= 1) && (enteredValue % 3 == 0);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 }

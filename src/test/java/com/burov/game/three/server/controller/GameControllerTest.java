@@ -92,13 +92,13 @@ public class GameControllerTest {
     }
 
     private Game gameWithId(int startNumber) {
-        Game game = new Game(startNumber);
+        Game game = new Game(startNumber, null, null);
         game.setId(GAME_ID);
         return game;
     }
 
     private String newGameAsJson() {
-        return "{\"id\":null,\"number\":15,\"firstPlayer\":null,\"secondPlayer\":null,\"status\":null}";
+        return "{\"id\":null,\"number\":15,\"addedNumber\":0,\"previosNumber\":0,\"firstPlayer\":null,\"secondPlayer\":null,\"status\":null}";
     }
 
     private String newGameWithoutNumberAsJson() {
@@ -208,7 +208,7 @@ public class GameControllerTest {
         mockMvc.perform(put("/games/{gameId}/players/{playerId}", GAME_ID, PLAYER_ID)
                 .content(newGameAsJson())
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(status().isOk());
+                .andExpect(status().isAccepted());
     }
 
     @Test
@@ -219,7 +219,7 @@ public class GameControllerTest {
                 .accept(GameController.VERSION_HEADER)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(newGameAsJson()))
-                .andExpect(status().isOk())
+                .andExpect(status().isAccepted())
                 .andExpect(jsonPath("$.id").value(GAME_ID))
                 .andExpect(jsonPath("$.number").value(ANOTHER_NUMBER));
     }
@@ -237,7 +237,7 @@ public class GameControllerTest {
     }
 
     private List<Game> listOfGames() {
-        Game game = new Game(START_NUMBER);
+        Game game = new Game(START_NUMBER, null, null);
         game.setId(GAME_ID);
         return ImmutableList.of(game);
     }

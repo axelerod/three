@@ -19,7 +19,6 @@ import java.util.Map;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -164,7 +163,7 @@ public class MapBasedGameServiceTest {
     }
 
     private Game newGame(String gameId, Status status) {
-        Game game = new Game(START_NUMBER);
+        Game game = new Game(START_NUMBER, null, null);
         game.setId(gameId);
         game.setStatus(status);
         return game;
@@ -172,7 +171,7 @@ public class MapBasedGameServiceTest {
 
     @Test
     public void shouldSaveGame() {
-        Game savedGame = testedInstance.create(new Game(START_NUMBER));
+        Game savedGame = testedInstance.create(new Game(START_NUMBER, null, null));
 
         assertThat(savedGame.getId().length(), greaterThan(1));
         assertThat(savedGame.getNumber(), is(START_NUMBER));

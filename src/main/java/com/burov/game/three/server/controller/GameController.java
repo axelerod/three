@@ -1,11 +1,10 @@
 package com.burov.game.three.server.controller;
 
+import com.burov.game.three.server.service.GameService;
 import com.burov.game.three.shared.model.Game;
 import com.burov.game.three.shared.model.Player;
 import com.burov.game.three.shared.model.Status;
-import com.burov.game.three.server.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -51,6 +50,7 @@ public class GameController {
     }
 
     @RequestMapping(path = "/{gameId}/players/{playerId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public Game move(@PathVariable("playerId") @NotNull @Size(min = 1) String playerId,
                      @PathVariable("gameId") @NotNull @Size(min = 1) String gameId,
                      @RequestBody @Valid Game game) {
