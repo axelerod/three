@@ -27,7 +27,7 @@ public class StartingStage implements Stage {
     @Override
     public Context perform(Context context) {
         String userName = communicationService.getUserName();
-        Optional<Player> registeredPlayer = playerService.registerPlayer(userName);
+        Optional<Player> registeredPlayer = playerService.registerPlayer(new Player(userName, null));
         if (!registeredPlayer.isPresent()) {
             return withFailedStage();
         }

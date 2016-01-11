@@ -26,7 +26,7 @@ public class CallProcessor<T> {
                 System.out.println(wrongCodeMessage + callResponse.message());
                 return Optional.empty();
             }
-            return Optional.of(callResponse.body());
+            return callResponse.body() == null ? Optional.empty() : Optional.of(callResponse.body());
         } catch (IOException e) {
             System.out.println("Server doesn't respond: " + e.getMessage());
         }

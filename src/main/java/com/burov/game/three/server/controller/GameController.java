@@ -45,8 +45,9 @@ public class GameController {
 
     @RequestMapping(path = "/{gameId}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void deleteGame(@PathVariable("gameId") @NotNull @Size(min = 1) String gameId) {
+    public String deleteGame(@PathVariable("gameId") @NotNull @Size(min = 1) String gameId) {
         gameService.delete(gameId);
+        return gameId;
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -63,7 +64,7 @@ public class GameController {
         return gameService.move(game, playerId, gameId);
     }
 
-    @RequestMapping(path = "/{gameId}/players/{playerId}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(path = "/{gameId}/players/{playerId}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = VERSION_HEADER)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public Game applyToGame(@PathVariable("playerId") @NotNull @Size(min = 1) String playerId,
                             @PathVariable("gameId") @NotNull @Size(min = 1) String gameId,

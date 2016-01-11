@@ -15,7 +15,7 @@ public class MapBasedPlayerServiceTest {
 
     @Test
     public void shouldReturnPlayer() {
-        Player player = testedInstance.registerPlayer(PLAYER_NAME);
+        Player player = testedInstance.registerPlayer(new Player(PLAYER_NAME, null));
 
         assertThat(player.getId().length(), greaterThan(1));
         assertThat(player.getName(), is(PLAYER_NAME));
@@ -23,7 +23,7 @@ public class MapBasedPlayerServiceTest {
 
     @Test
     public void shouldFindPlayerById() {
-        Player player = testedInstance.registerPlayer(PLAYER_NAME);
+        Player player = testedInstance.registerPlayer(new Player(PLAYER_NAME, null));
 
         Player savedPlayer = testedInstance.getPlayer(player.getId());
         assertThat(savedPlayer.getName(), is(PLAYER_NAME));

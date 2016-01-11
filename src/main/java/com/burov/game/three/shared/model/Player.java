@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 public class Player {
     @NotNull
     private String name;
-    @NotNull
     private String id;
 
     public Player() {
@@ -25,6 +24,14 @@ public class Player {
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

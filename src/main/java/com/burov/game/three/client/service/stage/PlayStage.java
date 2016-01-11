@@ -59,7 +59,6 @@ public class PlayStage implements Stage {
 
     private Context play(Game game, Player player) {
         System.out.println("Starting game:");
-        printGameInfo(game);
         while (true) {
             if (game.getPerformedLastMove().equals(player)) {
                 System.out.println("Should wait for opponent move");
@@ -75,10 +74,13 @@ public class PlayStage implements Stage {
             Integer previousNumber = game.getNumber();
             if (previousNumber == BOUNDARY_VALUE) {
                 System.out.println("Well done, your opponent reached 1. Game over!");
+                gameService.remove(game.getId());
                 return Context.success();
             }
-            Integer newNumber = communicationService.enterNewNumber(previousNumber);
-            Integer added = newNumber * 3 - previousNumber;
+
+            Integer enteredNumber = communicationService.enterNewNumber(previousNumber);
+            Integer added = enteredNumber - previousNumber;
+            Integer newNumber = enteredNumber / 3;
             game.setNumber(newNumber);
             game.setPreviosNumber(previousNumber);
             game.setAddedNumber(added);

@@ -9,5 +9,5 @@ import retrofit2.http.POST;
 public interface RetrofitPlayerService {
     @POST("/players")
     @Headers("Accept: application/vnd.burov.three.v1+json")
-    Call<Player> register(@Body String name);
+    Call<Player> register(@Body Player player);
 }

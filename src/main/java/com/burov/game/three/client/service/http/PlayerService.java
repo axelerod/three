@@ -17,8 +17,8 @@ public class PlayerService {
         this.playerService = playerService;
     }
 
-    public Optional<Player> registerPlayer(String userName) {
-        Call<Player> registerCall = playerService.register(userName);
+    public Optional<Player> registerPlayer(Player player) {
+        Call<Player> registerCall = playerService.register(player);
         return new CallProcessor<>(HttpStatus.CREATED, registerCall, "You weren't registered: ")
                 .process();
     }

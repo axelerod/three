@@ -10,12 +10,12 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class MapBasedPlayerService implements PlayerService {
 
-    private Map<String,Player> players = new ConcurrentHashMap<>();
+    private Map<String, Player> players = new ConcurrentHashMap<>();
 
     @Override
-    public Player registerPlayer(String name) {
+    public Player registerPlayer(Player player) {
         String userUuid = UUID.randomUUID().toString();
-        Player player = new Player(name, userUuid);
+        player.setId(userUuid);
         players.put(userUuid, player);
 
         return player;
