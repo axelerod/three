@@ -33,7 +33,6 @@ public class GameController {
      * @return list of games
      */
     @RequestMapping(method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.CREATED)
     public GamesResponse listGames(@RequestParam(name = "statuses", required = false) Status[] statuses) {
         return new GamesResponse(statuses == null ?
                 gameService.listGames(Status.values()) : gameService.listGames(statuses));

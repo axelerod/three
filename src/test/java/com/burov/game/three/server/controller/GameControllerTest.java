@@ -54,7 +54,7 @@ public class GameControllerTest {
     @Test
     public void shouldAcceptJsonHeader() throws Exception {
         mockMvc.perform(get("/games").accept(GameController.VERSION_HEADER))
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -111,7 +111,7 @@ public class GameControllerTest {
 
         mockMvc.perform(get("/games").accept(GameController.VERSION_HEADER)
                 .param("statuses", Status.NEW.name()))
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.games[0].id").value(GAME_ID))
                 .andExpect(jsonPath("$.games[0].number").value(START_NUMBER));
     }
